@@ -1,6 +1,6 @@
 #  TCG Proxy Card Printer
 
-> Gera folhas PDF prontas para impressão com suas proxies de Magic: The Gathering — feito pela comunidade, para a comunidade.
+> Gera folhas PDF prontas para impressão com suas proxies tipo Magic: The Gathering — feito pela comunidade, para a comunidade.
 
 ---
 
