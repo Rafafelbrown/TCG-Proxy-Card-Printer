@@ -1,29 +1,29 @@
-# 🃏 MTG Proxy Card Printer
+#  TCG Proxy Card Printer
 
 > Gera folhas PDF prontas para impressão com suas proxies de Magic: The Gathering — feito pela comunidade, para a comunidade.
 
 ---
 
-## ✨ O que é isso?
+##  O que é isso?
 
-Uma ferramenta de linha de comando simples que recebe a imagem de uma carta (criada por ferramentas como [MTG Card Builder](https://mtgcardbuilder.com)) e organiza múltiplas cópias em uma folha A4 ou Letter, pronta para imprimir e cortar.
+Uma ferramenta de linha de comando simples que recebe a imagem de uma carta (criada por ferramentas como [TCG Card Builder](https://mtgcardbuilder.com)) e organiza múltiplas cópias em uma folha A4 ou Letter, pronta para imprimir e cortar.
 
 **Resultado:** folha 3×3 com marcas de corte, em PDF de alta qualidade.
 
 ---
 
-## 📋 Pré-requisitos
+##  Pré-requisitos
 
-- Python **3.8+**
+- Python **3.11+**
 - pip
 
 ---
 
-## ⚙️ Instalação
+##  Instalação
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/mtg-proxy-printer.git
+git clone https://github.com/Rafafelbrown/TCG-Proxy-Card-Printer.git
 cd mtg-proxy-printer
 
 # 2. (Recomendado) Crie um ambiente virtual
@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🚀 Uso
+##  Uso
 
 ```bash
 python card_printer.py <caminho_da_imagem> [opções]
@@ -67,7 +67,7 @@ python card_printer.py carta.png --output meu_deck_proxy.pdf
 
 ---
 
-## 🔧 Opções
+##  Opções
 
 | Opção | Padrão | Descrição |
 |---|---|---|
@@ -83,7 +83,7 @@ python card_printer.py carta.png --output meu_deck_proxy.pdf
 
 ---
 
-## 🖨️ Dicas de Impressão
+##  Dicas de Impressão
 
 1. **Escala:** Imprima sempre em **100% / tamanho real** — nunca "ajustar à página"
 2. **Papel:** Papel **couché** ou **fotográfico** matte dá um acabamento profissional
@@ -92,7 +92,7 @@ python card_printer.py carta.png --output meu_deck_proxy.pdf
 
 ---
 
-## 📁 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 mtg-proxy-printer/
@@ -104,7 +104,7 @@ mtg-proxy-printer/
 
 ---
 
-## 📦 requirements.txt
+##  requirements.txt
 
 ```
 Pillow>=10.0.0
@@ -113,14 +113,14 @@ reportlab>=4.0.0
 
 ---
 
-## 🤝 Contribuindo
+##  Contribuindo
 
 Pull requests são bem-vindos! Algumas ideias para contribuições:
 
 - Suporte a múltiplas imagens diferentes na mesma folha
 - Interface gráfica (GUI) com Tkinter ou web com Gradio
 - Suporte a frente e verso (double-faced cards)
-- Preset de tamanho exato de carta MTG (63mm × 88mm)
+- Preset de tamanho exato de carta TCG (63mm × 88mm)
 - Exportar também como PNG de alta resolução
 
 Para contribuir:
@@ -134,10 +134,10 @@ git push origin feature/minha-feature
 
 ---
 
-## 📄 Licença
+##  Licença
 
 Distribuído sob a licença **MIT**. Veja `LICENSE` para mais informações.
 
 ---
 
-> **Aviso Legal:** Este projeto é destinado exclusivamente ao uso pessoal e educacional. Magic: The Gathering é marca registrada da Wizards of the Coast. Não use proxies em torneios oficiais.
+> **Aviso Legal:** Este projeto é destinado exclusivamente ao uso pessoal e educacional. Não use proxies em torneios oficiais.
