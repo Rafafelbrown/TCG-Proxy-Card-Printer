@@ -1,6 +1,12 @@
 """
-card_printer.py — MTG Proxy Card Sheet Generator
+
+card_printer.py — tcg Proxy Card Sheet Generator
 Arranges card images in a printable A4/Letter PDF (3x3 or 3x3 grid).
+this script is ideal for creating proxy sheets for Magic: The Gathering or similar TCGs.
+is not for mass production, but for quick home printing of a few proxies.
+and is for personal use only (not for commercial distribution of copyrighted card images).
+and is not for piracy or unauthorized reproduction of official cards is for personal use only.
+
 
 Usage:
     python card_printer.py <image_path> [options]
@@ -14,6 +20,12 @@ Options:
     --margin   MM    Page margin in mm (default: 10)
     --gap      MM    Gap between cards in mm (default: 2)
     --cut-marks      Draw cut guide lines between cards (default: True)
+
+Example:
+    python card_printer.py my_card.png --copies 18 --cols 3 --rows
+or:
+    python card_printer.py my_card.png --copies 18 --cols 2 --rows 3 --output my_proxies.pdf
+    
 """
 
 import argparse
@@ -87,11 +99,13 @@ def generate_proxy_sheet(
     with Image.open(img_path) as pil_img:
         orig_w, orig_h = pil_img.size
         img_aspect = orig_w / orig_h
+        
 
     slot_aspect = slot_w / slot_h
     if img_aspect > slot_aspect:
         card_w = slot_w
         card_h = slot_w / img_aspect
+        
     else:
         card_h = slot_h
         card_w = slot_h * img_aspect
@@ -108,8 +122,18 @@ def generate_proxy_sheet(
         tmp_path = tmp.name
         tmp.close()
 
+    output_path = Path(output)
+    temp_output = tempfile.NamedTemporaryFile(
+        suffix=".pdf",
+        prefix=output_path.stem + "_",
+        delete=False,
+        dir=str(output_path.parent),
+    )
+    temp_output_path = Path(temp_output.name)
+    temp_output.close()
+
     # --- Build PDF ---
-    c = canvas.Canvas(output, pagesize=pagesize)
+    c = canvas.Canvas(str(temp_output_path), pagesize=pagesize)
     c.setTitle(f"Proxy Sheet — {img_path.stem}")
     c.setAuthor("card_printer.py")
 
@@ -144,11 +168,52 @@ def generate_proxy_sheet(
 
         page_num += 1
 
-    c.save()
-    os.unlink(tmp_path)
+    rename_succeeded = False
+    final_output_path = output_path
+    
+    try:
+        # Finalize PDF to temp file
+        c.save()
+        
+        # Try to save to the target path
+        try:
+            os.replace(str(temp_output_path), str(output_path))
+            rename_succeeded = True
+            final_output_path = output_path
+        except PermissionError:
+            # Target file is locked; try incrementing filename
+            counter = 1
+            while counter <= 100:
+                alt_name = output_path.stem + f"_{counter}" + output_path.suffix
+                alt_path = output_path.parent / alt_name
+                try:
+                    os.replace(str(temp_output_path), str(alt_path))
+                    rename_succeeded = True
+                    final_output_path = alt_path
+                    break
+                except PermissionError:
+                    counter += 1
+            
+            if not rename_succeeded:
+                raise PermissionError(
+                    f"Não foi possível gravar o PDF. {output_path} está bloqueado, "
+                    f"e também não foi possível salvar variações numeradas."
+                )
+    finally:
+        if os.path.exists(tmp_path):
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
+        if rename_succeeded and os.path.exists(temp_output_path):
+            try:
+                os.unlink(temp_output_path)
+            except OSError:
+                pass
 
     pages = page_num
-    print(f"✅  PDF criado: {output}")
+    print(f"✅  PDF criado: {final_output_path.name}")
+
     print(f"   {copies} cópias · {cols}×{rows} por página · {pages} página(s)")
     print(f"   Papel: {paper.upper()} · Margem: {margin_mm}mm · Gap: {gap_mm}mm")
     if cut_marks:
@@ -186,3 +251,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
